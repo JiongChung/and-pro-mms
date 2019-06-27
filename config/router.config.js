@@ -47,6 +47,19 @@ export default [
           },
         ],
       },
+      //油联
+      {
+        path: 'youlian',
+        name: 'youlian',
+        icon: 'bank',
+        routes: [
+            {
+                path: '/youlian/chargelist',
+                name: 'chargelist',
+                component: './Youlian/ChargeList/ChargeList'
+            }
+        ]
+      },
       // forms
       {
         path: '/form',

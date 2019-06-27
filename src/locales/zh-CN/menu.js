@@ -42,4 +42,6 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
+  'menu.youlian': '智慧油联',
+  'menu.youlian.chargelist': '交费列表',
 };

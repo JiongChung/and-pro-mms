@@ -1,39 +1,47 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
-import Link from 'umi/link';
-import { Checkbox, Alert, message, Icon } from 'antd';
+import HttpService from '../../services/HttpService';
+import { Alert, message, Icon } from 'antd';
+import API from '../../api/Api';
+import CommonServices from '../../services/CommonServices';
 import Login from '@/components/Login';
 import styles from './Login.less';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
+const { UserName, Password, Submit } = Login;
 
 @connect(({ login, loading }) => ({
     login,
     submitting: loading.effects['login/login'],
 }))
 class LoginPage extends Component {
-    state = {
-        type: 'account',
-        autoLogin: true,
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            type: 'account'
+        };
+    }
+
+    componentDidMount(){
+        console.log(decodeURIComponent(window.location.href.split('?')[1].split('=')[1]));
+    }
 
     handleSubmit = (err, values) => {
-        
-        console.log(err);
-        console.log(values);
-        const { type } = this.state;
-        // if (!err) {
-        // const { dispatch } = this.props;
-        // dispatch({
-        //     type: 'login/login',
-        //     payload: {
-        //     ...values,
-        //     type,
-        //     },
-        // });
-        // }
+        let api = API + '/api/TokenAuth/Authenticate';
+        HttpService.post(api, values)
+        .then(data => this.setCookie(data.result))
+        .catch(err => {
+           console.log(err)
+        })
     };
+
+    setCookie = (result) => {
+        const url = window.location.href.split('?')[1].split('=')[1];
+        CommonServices.setCookie('Abp.AuthToken',result.accessToken);
+        CommonServices.setCookie('enc_auth_token',result.encryptedAccessToken);
+        window.location.href = decodeURIComponent(url);
+        // this.props.history.push(url)
+    }
 
     renderMessage = content => (
         <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />
@@ -41,12 +49,11 @@ class LoginPage extends Component {
 
     render() {
         const { login, submitting } = this.props;
-        const { type, autoLogin } = this.state;
+        const { type } = this.state;
         return (
             <div className={styles.main}>
                 <Login
                     defaultActiveKey={type}
-                    onTabChange={this.onTabChange}
                     onSubmit={this.handleSubmit}
                     ref={form => {
                         this.loginForm = form;
@@ -57,7 +64,7 @@ class LoginPage extends Component {
                     !submitting &&
                     this.renderMessage(formatMessage({ id: 'app.login.message-invalid-credentials' }))}
                     <UserName
-                        name="userName"
+                        name="userNameOrEmailAddress"
                         placeholder={`${formatMessage({ id: 'app.login.userName' })}: admin or user`}
                         rules={[
                             {
