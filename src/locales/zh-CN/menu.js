@@ -44,4 +44,6 @@ export default {
   'menu.editor.koni': '拓扑编辑器',
   'menu.youlian': '智慧油联',
   'menu.youlian.chargelist': '交费列表',
+  'menu.youlian.loadcardlist': '油卡圈存',
+  'menu.youlian.drawingapplylist': '提现申请'
 };

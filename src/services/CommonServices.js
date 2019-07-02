@@ -1,16 +1,30 @@
 export default class CommonService {
     interval = null;
     
+    /**
+    * @description 验证数字类型
+    * @param {any} int 验证参数
+    **/
+
     static int(int){
         let myreg = /^[0-9]*[0-9][0-9]*$/;
         return myreg.test(int);
     }
+
+    /**
+    * @description 验证手机号码
+    * @param {any} phone 手机号码
+    **/
 
     static phone(phone){
         let myreg = /(^1[3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;
         return myreg.test(phone);
     }
 
+    /**
+    * @description 验证6-20位数字字母密码
+    * @param {any} password 密码
+    **/
     static password(password){
         let myreg = /^(?!([a-zA-Z]+|\d+)$)[a-zA-Z\d]{6,20}$/;
         return myreg.test(password);

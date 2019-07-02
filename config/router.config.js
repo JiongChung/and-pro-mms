@@ -54,9 +54,19 @@ export default [
         icon: 'bank',
         routes: [
             {
-                path: '/youlian/chargelist',
+                path: '/youlian/charge',
                 name: 'chargelist',
                 component: './Youlian/ChargeList/ChargeList'
+            },
+            {
+                path: '/youlian/loadcard',
+                name: 'loadcardlist',
+                component: './Youlian/LoadCardList/LoadCardList'
+            },
+            {
+                path: '/youlian/drawingapply',
+                name: 'drawingapplylist',
+                component: './Youlian/DrawingApplyList/DrawingApplyList'
             }
         ]
       },
